@@ -24,8 +24,9 @@ module.exports = (passport) => {
                     return done(null, false)
                 }
                 console.log('decoded JWT', decoded)
+                return done(null, decoded);
             } catch (error) {
-                return done(null, false)
+                return done(error.message, false)
             }
         })
     )

@@ -1,8 +1,10 @@
 const router = require('express').Router();
+const passport = require('passport')
 const userServices = require('./users.services')
+require('../middlewares/auth.middleware')(passport)
 
 //? Rutas raiz
-router.get('/', userServices.getAllUsers)
+router.get('/', passport.authenticate('jwt', { session: false }), userServices.getAllUsers)
 
 //? Rutas dinamicas por ID
 router.route('/:id')
