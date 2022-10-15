@@ -54,9 +54,14 @@ const Users = db.define('users',{
         allowNull: false,
         defaultValue: 'active'
     },
+    token: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     isVerified:{
         type: DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
         field: 'is_verified'
     }
 })

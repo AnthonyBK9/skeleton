@@ -1,6 +1,7 @@
 const User = require('../models/users.models')
 const uuid = require('uuid');
 const { hashPassword } = require('../utils/crypto');
+const generateToken  = require('../utils/generateToken');
 
 const getAllUsers = async () => {
     const data = await User.findAll();
@@ -27,6 +28,7 @@ const createUser = async (data) => {
         birthday: data.birthday,
         gender: data.gender,
         country: data.country,
+        token: generateToken()
     });
     return newUser;
 }
@@ -36,21 +38,30 @@ const updateUser = async (id, data) => {
         where: {
             id
         }
-    })
+    });
     return result;
 }
 
 const deleteUser = async (id) => {
     const data = await User.destroy({
         where: {id}
-    })
+    });
     return data;
 }
+
+const getUserByEmail = async (email) => {
+    const data = await User.findOne({ //? SELECT * FROM users WHERE email = email
+        where: {email}
+    });
+    return data;
+}
+
 
 module.exports = {
     getAllUsers,
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserByEmail
 }
