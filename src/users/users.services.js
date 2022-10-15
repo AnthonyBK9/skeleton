@@ -78,10 +78,55 @@ const deleteUser = (req, res) => {
         })
 }
 
+//? Validaciones de usuarios autenticados
+const getMyUser = (req, res) => {
+    const id = req.user.id //? req.user contiene la informacion del token desencriptado
+    userControllers.getUserById(id)
+        .then(data => {
+            res.status(200).json({data})
+        })
+        .catch(err => {
+            res.status(400).json({msg: err.message})
+        })
+}
+// firstName && lastName && email && password && phone && birthday
+const editMyUser = (req, res) => {
+    const id = req.user.id
+    const data = req.body
+    console.log(data)//? Valida si existen valores
+    if(!Object.keys(data).length) return res.status(400).json({msg: 'Missing data'})
+    userControllers.updateUser(id, data)
+        .then(response => {
+            if(response[0]) {
+                res.status(200).json(`User edited succesfully`)
+            } else {
+                res.status(400).json({msg: 'Invalid ID'})
+            }
+        })
+        .catch(err => {
+            res.status(400).json({msg: err.message})
+        })
+}
+
+const deleteMyUser = (req, res) => {
+    const id = req.user.id
+    userControllers.deleteUser(id)
+        .then(data => {
+            res.status(204).json()
+        })
+        .catch( err => {
+            res.status(400).json({msg: err.message})
+        })
+}
+
+
 module.exports = {
     getAllUsers,
     getUserById,
     registerUser,
     patchUser,
-    deleteUser
+    deleteUser,
+    getMyUser,
+    editMyUser,
+    deleteMyUser
 }
