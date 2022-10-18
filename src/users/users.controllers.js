@@ -4,14 +4,19 @@ const { hashPassword } = require('../utils/crypto');
 const generateToken  = require('../utils/generateToken');
 
 const getAllUsers = async () => {
-    const data = await User.findAll();
+    const data = await User.findAll({
+        where: {
+            status: 'active'
+        }
+    });
     return data;
 }
 
 const getUserById = async (id) => {
     const data = await User.findOne({
         where: {
-            id
+            id,
+            status: 'active'
         }
     });
     return data;
@@ -36,7 +41,8 @@ const createUser = async (data) => {
 const updateUser = async (id, data) => {
     const result = await User.update(data,{
         where: {
-            id
+            id,
+            status: 'active'
         }
     });
     return result;
@@ -44,14 +50,19 @@ const updateUser = async (id, data) => {
 
 const deleteUser = async (id) => {
     const data = await User.destroy({
-        where: {id}
+        where: {
+            id
+        }
     });
     return data;
 }
 
 const getUserByEmail = async (email) => {
     const data = await User.findOne({ //? SELECT * FROM users WHERE email = email
-        where: {email}
+        where: {
+            email, 
+            status: 'active'
+        }
     });
     return data;
 }

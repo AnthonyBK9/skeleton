@@ -11,5 +11,6 @@ const { registerUser } = require('../users/users.services')
 //? /api/vi/auth
 router.post('/register', registerUser)
 router.post('/login', authServices)
+// router.post('/password-recovery', )
 
 module.exports = router;

@@ -78,6 +78,7 @@ const deleteUser = (req, res) => {
         })
 }
 
+// TODO rutas protegidas /me, con los verbos GET, PATCH, DELETE
 //? Validaciones de usuarios autenticados
 const getMyUser = (req, res) => {
     const id = req.user.id //? req.user contiene la informacion del token desencriptado
@@ -89,36 +90,33 @@ const getMyUser = (req, res) => {
             res.status(400).json({msg: err.message})
         })
 }
-// firstName && lastName && email && password && phone && birthday
-const editMyUser = (req, res) => {
-    const id = req.user.id
-    const data = req.body
-    console.log(data)//? Valida si existen valores
-    if(!Object.keys(data).length) return res.status(400).json({msg: 'Missing data'})
-    userControllers.updateUser(id, data)
-        .then(response => {
-            if(response[0]) {
-                res.status(200).json(`User edited succesfully`)
-            } else {
-                res.status(400).json({msg: 'Invalid ID'})
-            }
+
+const patchMyUser = (req, res) => {
+    const id = req.params.id
+    const { firstName, lastName, phone, country} = req.body;
+    userControllers.updateUser(id, { firstName, lastName, phone, country})
+        .then(data => {
+            res.status(200).json({msg: `Your user was edited succesfully!`})
         })
         .catch(err => {
             res.status(400).json({msg: err.message})
         })
 }
 
+//? Tipos de delete
+//* 1. Por administrador
+//* 2. Por mi mismo
+
 const deleteMyUser = (req, res) => {
-    const id = req.user.id
-    userControllers.deleteUser(id)
-        .then(data => {
-            res.status(204).json()
+    const id = req.params.id;
+    userControllers.deleteUser(id, {status: 'inactive'}) //? Cambiar el status a inactive, al momento de eliminar un usuario
+        .then(() => {
+            res.status(200).json({msg: `Your user was deleted succesfully!`})
         })
-        .catch( err => {
+        .catch(err => {
             res.status(400).json({msg: err.message})
         })
 }
-
 
 module.exports = {
     getAllUsers,
@@ -127,6 +125,6 @@ module.exports = {
     patchUser,
     deleteUser,
     getMyUser,
-    editMyUser,
+    patchMyUser,
     deleteMyUser
 }

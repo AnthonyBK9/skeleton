@@ -20,5 +20,9 @@ const loginUser = async (email, password) => {
     }
 }
 
+const passwordRecovery = async () => {
+
+}
+
 module.exports = loginUser
 

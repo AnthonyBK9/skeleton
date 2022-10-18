@@ -3,7 +3,6 @@
 //* 2.- Verificar si el token pertenece a un usuario valido
 //* 3.-  Modificar el req y agrega req.user con la inforamcion desencriptada del token
 
-
 const JwtStrategy = require('passport-jwt').Strategy //? Passport maneja estrategias(maneras de hacer un login Facebook, Google, JWT...) para las direfentes autenticaciones
 const ExtractJwt = require('passport-jwt').ExtractJwt //? Extrae los header de la petición 
 const { jwtSecret } = require('../config')
