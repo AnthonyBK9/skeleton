@@ -22,7 +22,7 @@ module.exports = (passport) => {
                 if (!response) {
                     return done(null, false)
                 }
-                console.log('decoded JWT', decoded)
+                // console.log('decoded JWT', decoded)
                 return done(null, decoded);
             } catch (error) {
                 return done(error.message, false)

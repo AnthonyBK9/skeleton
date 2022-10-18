@@ -5,6 +5,7 @@ const userRouter = require('./users/users.router');
 const authRouter = require('./auth/auth.router');
 //? Files
 const { port } = require('./config');
+const initModels = require('./models/initModels')
 const db = require('./utils/database');
 
 //? Initial Configs
@@ -18,6 +19,8 @@ db.authenticate() // ? Authenticate database credentials
 db.sync() //? Sync sequelize models
     .then(() => console.log('Database synced'))
     .catch((err) => console.log(err))
+
+initModels()
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/auth', authRouter)
