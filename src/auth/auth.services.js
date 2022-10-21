@@ -51,11 +51,11 @@ const confirm = (req, res) => {
 const forgotPassword = (req, res) => {
     const email = req.body.email
     if (!email) return res.status(400).json({msg: 'Missing Data'})
-    getUserByEmail(email)
+    getUserByEmail(email) //? Se envie el email para validar si existe en ls BD
         .then(data => {
             if (data){
                 res.status(200).json({msg: 'Hemos enviado un email con las instrucciones'})
-                forgotPasswordByUser(email)
+                forgotPasswordByUser(email) 
 
             } else {
                 res.status(404).json({msg: 'Usuario no registrado'})
@@ -71,7 +71,7 @@ const newPassword = (req, res) => {
     const password = req.body.password
     const token = req.params.token
     if (!password) res.status(400).json({msg: 'Missing password'})
-        getUserByToken(token)
+        getUserByToken(token) //? Se envia el Token para cambio de contraseña
             .then(data => {
                 if (data) {
                     res.status(200).json({msg: 'Password actualizado correctamente'})

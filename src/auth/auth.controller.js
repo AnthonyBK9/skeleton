@@ -39,6 +39,7 @@ const confirmByUser = async (token) => {
     }
 }
 
+//? Generar Token para restablecer password
 const forgotPasswordByUser = async (email) => {
     try {
         const data = {
@@ -56,6 +57,7 @@ const forgotPasswordByUser = async (email) => {
     }
 }
 
+//? Se guarda el nuevo password del usuario
 const resetPasswordByUser = async (token, password) => {
     try {
         const newPassword = {

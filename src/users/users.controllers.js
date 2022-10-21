@@ -23,7 +23,7 @@ const getUserById = async (id) => {
 }
 
 const createUser = async (data) => {
-    const newUser = await User.create({
+    const newUser = await User.create({ //? Creando nuevo registro de usuario
         id: uuid.v4(),
         firstName: data.firstName,
         lastName: data.lastName,
@@ -39,7 +39,7 @@ const createUser = async (data) => {
 }
 
 const updateUser = async (id, data) => {
-    const result = await User.update(data,{
+    const result = await User.update(data,{ //? Actualizar usuario
         where: {
             id,
             status: 'active'
@@ -49,7 +49,7 @@ const updateUser = async (id, data) => {
 }
 
 const deleteUser = async (id) => {
-    const data = await User.destroy({
+    const data = await User.destroy({ //? Eliminar usuario
         where: {
             id
         }
@@ -58,7 +58,7 @@ const deleteUser = async (id) => {
 }
 
 const getUserByEmail = async (email) => {
-    const data = await User.findOne({ //? SELECT * FROM users WHERE email = email
+    const data = await User.findOne({ //? Consulta para traernos el usuario por su email
         where: {
             email, 
             status: 'active'
@@ -68,7 +68,7 @@ const getUserByEmail = async (email) => {
 }
 
 const getUserByToken = async (token) => {
-    const data = await User.findOne({
+    const data = await User.findOne({ //? Consulta para traernos el usuario por su token
         where: {
             token,
             status: 'active'
