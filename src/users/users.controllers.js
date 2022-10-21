@@ -67,6 +67,16 @@ const getUserByEmail = async (email) => {
     return data;
 }
 
+const getUserByToken = async (token) => {
+    const data = await User.findOne({
+        where: {
+            token,
+            status: 'active'
+        }
+    })
+    return data
+}
+
 
 module.exports = {
     getAllUsers,
@@ -74,5 +84,6 @@ module.exports = {
     createUser,
     updateUser,
     deleteUser,
-    getUserByEmail
+    getUserByEmail,
+    getUserByToken
 }

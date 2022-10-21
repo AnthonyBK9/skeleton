@@ -1,6 +1,7 @@
-
-const { getUserByEmail } = require('../users/users.controllers')
-const { comparePassword } = require('../utils/crypto')
+const { getUserByEmail, getUserByToken } = require('../users/users.controllers')
+const { comparePassword, hashPassword} = require('../utils/crypto')
+const generateToken  = require('../utils/generateToken');
+const Users = require('../models/users.models')
 
 //* Email y Password del usuario
 
@@ -20,9 +21,63 @@ const loginUser = async (email, password) => {
     }
 }
 
-const passwordRecovery = async () => {
-
+//? Confirma Cuenta del usuario
+const confirmByUser = async (token) => {
+    try {
+        const data = {
+            token: '',
+            isVerified: true
+        }
+        const userConfirm = Users.update(data,{
+            where: {
+                token
+            }
+        })
+        return userConfirm
+    } catch (error) {
+        return error
+    }
 }
 
-module.exports = loginUser
+const forgotPasswordByUser = async (email) => {
+    try {
+        const data = {
+            token: generateToken()
+        }
+        const resetPassword = await Users.update(data, {
+            where: {
+                email, 
+                status: 'active'
+            }
+        })
+        return resetPassword
+    } catch (error) {
+        return error
+    }
+}
+
+const resetPasswordByUser = async (token, password) => {
+    try {
+        const newPassword = {
+            token: '',
+            password: hashPassword(password)
+        }
+        const updatePassword = await Users.update(newPassword, {
+            where: {
+                token
+            },
+            status: 'active'
+        })
+        return updatePassword
+    } catch (error) {
+        return error
+    }
+}
+
+module.exports = {
+    loginUser,
+    confirmByUser,
+    forgotPasswordByUser,
+    resetPasswordByUser,
+}
 
