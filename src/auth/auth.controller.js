@@ -28,7 +28,7 @@ const confirmByUser = async (token) => {
             token: '',
             isVerified: true
         }
-        const userConfirm = Users.update(data,{
+        const userConfirm = await Users.update(data,{
             where: {
                 token
             }
